@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 using System.IO;
 
 namespace PersistanceLibrary
@@ -23,15 +22,15 @@ namespace PersistanceLibrary
       string definitionsql = 
         @"CREATE TABLE Definition 
         (
-            definitionId INTEGER, 
-            wordId INTEGER, 
+            definitionId INTEGER PRIMARY KEY,
+            wordId INTEGER,
             meaning VARCHAR(300),
             FOREIGN KEY(wordId) REFERENCES Word(wordId)
         );";
       string wordsql =
         @"CREATE TABLE Word 
         (
-            wordId INTEGER PRIMARY KEY, 
+            wordId INTEGER PRIMARY KEY,
             spelling VARCHAR(90)
         );";
       SQLiteCommand createDefinitionCommand = new SQLiteCommand(definitionsql, dbConnecion);

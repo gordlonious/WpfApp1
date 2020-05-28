@@ -4,10 +4,9 @@ using System.Windows.Input;
 
 namespace WpfApp1.Commands
 {
-    public class WordSearchCommand : ICommand
+    public class WordSaveCommand : ICommand
     {
-
-        private string previousSearch;
+        public WordSaveCommand() { }
 
         public event EventHandler CanExecuteChanged
         {
@@ -17,16 +16,17 @@ namespace WpfApp1.Commands
 
         public bool CanExecute(object parameter)
         {
-            return previousSearch != (string)parameter;
+            if ((string)parameter == "")
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public void Execute(object parameter)
         {
-            // if online check online db else check offline db
-
-            MessageBox.Show("word search command");
-
-            previousSearch = (string)parameter;
+            MessageBox.Show("Saved");
         }
     }
 }

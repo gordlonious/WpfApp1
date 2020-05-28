@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel;
-using System.Windows.Input;
 using WpfApp1.Commands;
 
 namespace WpfApp1.ViewModels
 {
     public class WordSearchViewModel : INotifyPropertyChanged
     {
-        ICommand _wordSearchCommand;
-        public ICommand WordSearchCommand
+        WordSearchCommand _wordSearchCommand;
+        public WordSearchCommand WordSearchCommand
         {
             get
             {
@@ -28,15 +27,12 @@ namespace WpfApp1.ViewModels
         string searchWord;
         public string SearchWord
         {
-            get
-            {
-                return searchWord;
-            }
+            get { return searchWord; }
             set
             {
                 searchWord = value;
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs("SearchWord"));
-                
+                WordSearchCommand.CanExecuteChanged += delegate { };
             }
 
         }

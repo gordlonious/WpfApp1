@@ -3,32 +3,36 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
-        xmlns:commands="clr-namespace:WpfApp1.Commands"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-  
-  <Window.CommandBindings>
-    <CommandBinding 
-     Command="commands:WordSearchCommand"
-     CanExecute="CanExecuteChanged"/>
-  </Window.CommandBindings>
-  
-  <Grid>
-    
-    <StackPanel Orientation="Horizontal">
-      <Label Target="{Binding ElementName=wordSearchBox}">Word _Search:</Label>
-      <TextBox 
+  <StackPanel>
+    <TabControl>
+      <TabItem Header="Search" DataContext="{Binding Path=WordSearchViewModel}">
+        <StackPanel Orientation="Horizontal">
+          <Label Target="{Binding ElementName=wordSearchBox}">Word _Search:</Label>
+          <TextBox 
           Name="wordSearchBox" 
           Height="25" 
           Width="600" 
           VerticalAlignment="Top" 
           SpellCheck.IsEnabled="True"
-          Text="{Binding Path=SearchWord}">
-      </TextBox>
-      <Button Height="25" Width="100" VerticalAlignment="Top" Command="{Binding Path=WordSearchCommand}" CommandParameter="{Binding Path=SearchWord}">Search</Button>
-    </StackPanel>
-    
-  </Grid>
-  
+          Text="{Binding Path=SearchWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+          <Button Height="25" Width="100" VerticalAlignment="Top" Command="{Binding Path=WordSearchCommand}" CommandParameter="{Binding Path=SearchWord}">Search</Button>
+        </StackPanel>
+      </TabItem>
+      <TabItem Header="Save" DataContext="{Binding Path=WordSaveViewModel}">
+        <StackPanel>
+          <StackPanel>
+            <Label Target="{Binding ElementName=word}">Word/Phrase:</Label>
+            <TextBox Name="word" Text="{Binding Path=SaveWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Command="{Binding Path=WordSaveCommand}" CommandParameter="{Binding Path=SaveWord}">Save</Button>
+          </StackPanel>
+          <StackPanel>
+            <Label Target="{Binding ElementName=recordAudio}">Utterance/Sound:</Label>
+            <Button Name="recordAudio">Record Audio</Button>
+          </StackPanel>
+        </StackPanel>
+      </TabItem>
+    </TabControl>
+  </StackPanel>
 </Window>

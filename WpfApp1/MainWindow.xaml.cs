@@ -13,7 +13,7 @@ namespace WpfApp1
         {
             Bootstrapper.Bootstrap();
             InitializeComponent();
-            DataContext = new WordSearchViewModel();
+            DataContext = new MainWindowViewModel();
         }
     }
 }
