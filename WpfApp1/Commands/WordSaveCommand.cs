@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppLogicCommandsAndQueries;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -26,7 +27,7 @@ namespace WpfApp1.Commands
 
         public void Execute(object parameter)
         {
-            MessageBox.Show("Saved");
+            SaveWordLogic.SaveWordOffline(parameter.ToString());
         }
     }
 }

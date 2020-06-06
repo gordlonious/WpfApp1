@@ -5,13 +5,13 @@ namespace PersistanceLibrary
 {
   public static class OfflineMyDictionaryDatabase
   {
-    private static SQLiteConnection dbConnecion = new SQLiteConnection("Data Source=MyDictionaryOfflineDatabase.sqlite;");
+    private static SQLiteConnection dbConnecion = new SQLiteConnection("Data Source=OfflineDatabase.sqlite;"); // Where should the sqlite file be stored on the client machine?
     public static void CreateDb()
     {
       // this should only happen once (during installation...)
-      if (!File.Exists("MyDictionaryOfflineDatabase.sqlite"))
+      if (!File.Exists("OfflineDatabase.sqlite"))
       {
-        SQLiteConnection.CreateFile("MyDictionaryOfflineDatabase.sqlite");
+        SQLiteConnection.CreateFile("OfflineDatabase.sqlite");
         CreateSchema();
       }
     }
