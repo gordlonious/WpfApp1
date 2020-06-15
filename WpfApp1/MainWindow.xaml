@@ -8,16 +8,30 @@
   <StackPanel>
     <TabControl>
       <TabItem Header="Search" DataContext="{Binding Path=WordSearchViewModel}">
-        <StackPanel Orientation="Horizontal">
-          <Label Target="{Binding ElementName=wordSearchBox}">Word _Search:</Label>
-          <TextBox 
-          Name="wordSearchBox" 
-          Height="25" 
-          Width="600" 
-          VerticalAlignment="Top" 
-          SpellCheck.IsEnabled="True"
-          Text="{Binding Path=SearchWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-          <Button Height="25" Width="100" VerticalAlignment="Top" Command="{Binding Path=WordSearchCommand}" CommandParameter="{Binding Path=SearchWord}">Search</Button>
+        <StackPanel>
+          <StackPanel Orientation="Horizontal">
+            <Label Target="{Binding ElementName=wordSearchBox}">Word _Search:</Label>
+            <TextBox 
+            Name="wordSearchBox" 
+            Height="25" 
+            Width="600" 
+            VerticalAlignment="Top" 
+            SpellCheck.IsEnabled="True"
+            Text="{Binding Path=SearchWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Height="25" Width="100" VerticalAlignment="Top" Command="{Binding Path=WordSearchCommand}" CommandParameter="{Binding Path=SearchWord}">Search</Button>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal">
+            <Label Target="{Binding ElementName=foundWord}">Found:</Label>
+            <TextBox 
+              Name="foundWord" 
+              Text="{Binding Path=WordSearchCommand.LastFoundWord, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+              IsReadOnly="True"/>
+            <TextBox 
+              Name="foundDefinition" 
+              IsReadOnly="True" 
+              Text="{Binding Path=WordSearchCommand.LastFoundDefinition, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+             />
+          </StackPanel>
         </StackPanel>
       </TabItem>
       <TabItem Header="Save" DataContext="{Binding Path=WordSaveViewModel}">
@@ -25,7 +39,8 @@
           <StackPanel>
             <Label Target="{Binding ElementName=word}">Word/Phrase:</Label>
             <TextBox Name="word" Text="{Binding Path=SaveWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Command="{Binding Path=WordSaveCommand}" CommandParameter="{Binding Path=SaveWord}">Save</Button>
+            <TextBox Name="definition" Text="{Binding Path=SaveDefinition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Command="{Binding Path=WordSaveCommand}" CommandParameter="{Binding}">Save</Button>
           </StackPanel>
           <StackPanel>
             <Label Target="{Binding ElementName=recordAudio}">Utterance/Sound:</Label>

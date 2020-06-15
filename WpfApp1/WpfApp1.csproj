@@ -112,6 +112,10 @@
       <Project>{5219266c-8453-4eeb-83f8-2da2d3e6662c}</Project>
       <Name>AppLogicCommandsAndQueries</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{DDBD33E2-4783-4062-98E5-6BC4CF60B971}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

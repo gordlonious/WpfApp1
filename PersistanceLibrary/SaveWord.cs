@@ -22,11 +22,25 @@ namespace PersistanceLibrary
             SQLiteCommand cmd = new SQLiteCommand(_connection);
             cmd.CommandText =
 $@"
-    INSERT INTO Word (spelling)
-    VALUES ('{word}')
+INSERT INTO Word (spelling)
+VALUES ('{word}');
 ";
-            int rowsAffected = cmd.ExecuteNonQuery();
-            return rowsAffected > 0;
+            int wordRowsAffected = cmd.ExecuteNonQuery();
+
+            cmd.CommandText =
+$@"
+SELECT last_insert_rowid();
+";
+            long wordId = (long)cmd.ExecuteScalar();
+
+            cmd.CommandText =
+$@"
+INSERT INTO Definition (wordId, meaning)
+VALUES ('{wordId}', '{definition}');
+";
+
+            int definitionRowsAffected = cmd.ExecuteNonQuery();
+            return wordRowsAffected > 0 && definitionRowsAffected > 0;
         }
     }
 }

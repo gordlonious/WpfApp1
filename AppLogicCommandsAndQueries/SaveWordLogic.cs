@@ -24,9 +24,9 @@ namespace AppLogicCommandsAndQueries
             }
 
            if (!successfulSave)
-            {
+           {
                 throw new Exception($"Could not save word: {word}.");
-            }
+           }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AppLogicCommandsAndQueries;
 using System;
-using System.Windows;
 using System.Windows.Input;
+using WpfApp1.ViewModels;
 
 namespace WpfApp1.Commands
 {
@@ -17,7 +17,11 @@ namespace WpfApp1.Commands
 
         public bool CanExecute(object parameter)
         {
-            if ((string)parameter == "")
+            if (parameter == null)
+                return false;
+
+            WordSaveViewModel vm = (WordSaveViewModel)parameter;
+            if (vm.SaveWord == "" && vm.SaveDefinition == "")
             {
                 return false;
             }
@@ -27,7 +31,10 @@ namespace WpfApp1.Commands
 
         public void Execute(object parameter)
         {
-            SaveWordLogic.SaveWordOffline(parameter.ToString());
+            WordSaveViewModel vm = (WordSaveViewModel)parameter;
+            SaveWordLogic.SaveWordOffline(vm.SaveWord, vm.SaveDefinition);
+            vm.SaveWord = "";
+            vm.SaveDefinition = "";
         }
     }
 }

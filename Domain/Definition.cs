@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Domain
 {
-  public class Definition
-  {
-    public string Meaning { get; set; }
-    public IList<string> Context { get; set; }
-  }
+    public class Definition
+    {
+        public Definition(string definition)
+        {
+            Meaning = definition;
+            Context = new List<string>();
+        }
+        public string Meaning { get; set; }
+        public IList<string> Context { get; set; }
+    }
 }

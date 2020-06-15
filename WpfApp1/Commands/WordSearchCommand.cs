@@ -1,13 +1,18 @@
-﻿using System;
+﻿using AppLogicCommandsAndQueries;
+using Domain;
+using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
 namespace WpfApp1.Commands
 {
-    public class WordSearchCommand : ICommand
+    public class WordSearchCommand : ICommand, INotifyPropertyChanged
     {
+        public string LastFoundWord { get; set; }
+        public string LastFoundDefinition { get; set; }
 
-        private string previousSearch;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public event EventHandler CanExecuteChanged
         {
@@ -15,18 +20,27 @@ namespace WpfApp1.Commands
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return previousSearch != (string)parameter;
-        }
+        public bool CanExecute(object parameter) { return true; }
 
         public void Execute(object parameter)
         {
-            // if online check online db else check offline db
-
-            MessageBox.Show("word search command");
-
-            previousSearch = (string)parameter;
+            string word = (string)parameter;
+            bool found = SearchWordLogic.WordExistsOffline(word);
+            if (found)
+            {
+                Word w = SearchWordLogic.GetWord(word);
+                LastFoundWord = word;
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("LastFoundWord"));
+                if (w.DefinitionList.Count > 0)
+                {
+                    LastFoundDefinition = w.DefinitionList[0]?.Meaning;
+                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("LastFoundDefinition"));
+                }
+            }
+            else
+            {
+                MessageBox.Show("not found.");
+            }
         }
     }
 }
