@@ -15,32 +15,60 @@ namespace PersistanceLibrary
         public void Dispose()
         {
             _connection.Close();
+            _connection.Dispose();
         }
 
         public bool Save(string word, string definition = null)
         {
-            SQLiteCommand cmd = new SQLiteCommand(_connection);
-            cmd.CommandText =
+            using (SQLiteCommand cmd = new SQLiteCommand(_connection))
+            {
+                cmd.CommandText =
 $@"
 INSERT INTO Word (spelling)
 VALUES ('{word}');
 ";
-            int wordRowsAffected = cmd.ExecuteNonQuery();
+                int wordRowsAffected = cmd.ExecuteNonQuery();
 
-            cmd.CommandText =
+                cmd.CommandText =
 $@"
 SELECT last_insert_rowid();
 ";
-            long wordId = (long)cmd.ExecuteScalar();
+                long wordId = (long)cmd.ExecuteScalar();
 
-            cmd.CommandText =
+                cmd.CommandText =
 $@"
 INSERT INTO Definition (wordId, meaning)
 VALUES ('{wordId}', '{definition}');
 ";
 
-            int definitionRowsAffected = cmd.ExecuteNonQuery();
-            return wordRowsAffected > 0 && definitionRowsAffected > 0;
+                int definitionRowsAffected = cmd.ExecuteNonQuery();
+                return wordRowsAffected > 0 && definitionRowsAffected > 0;
+            }
+        }
+
+        public bool AddDefinition(string word, string definition)
+        {
+            using (SQLiteCommand cmd = new SQLiteCommand(_connection))
+            {
+                cmd.CommandText =
+$@"
+SELECT wordId
+FROM Word
+WHERE spelling = '{word}'
+";
+                object result = cmd.ExecuteScalar();
+                int wordId = Convert.ToInt32(result);
+
+                cmd.CommandText =
+$@"
+INSERT INTO Definition (wordId, meaning)
+VALUES ('{wordId}', '{definition}');
+";
+
+                int rowsInserted = cmd.ExecuteNonQuery();
+
+                return rowsInserted > 0;
+            }
         }
     }
 }

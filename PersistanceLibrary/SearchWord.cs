@@ -16,6 +16,7 @@ namespace PersistanceLibrary
         public void Dispose()
         {
             _connection.Close();
+            _connection.Dispose();
         }
 
         public bool SearchForWordOffline(string word)

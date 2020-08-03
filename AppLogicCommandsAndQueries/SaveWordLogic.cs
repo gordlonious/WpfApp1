@@ -17,10 +17,25 @@ namespace AppLogicCommandsAndQueries
                 throw new Exception("Could not open connection to offline database.", e);
             }
 
+            bool wordAlreadySaved = SearchWordLogic.WordExistsOffline(word);
+            bool definitionAlreadySavedOrIsNull = (!string.IsNullOrWhiteSpace(definition)) ? SearchDefinitionLogic.DefinitionExistsOffline(definition) : false;
+
             bool successfulSave;
             using (sw)
             {
-                successfulSave = sw.Save(word, definition);
+                if (wordAlreadySaved && string.IsNullOrWhiteSpace(definition) || definitionAlreadySavedOrIsNull)
+                {
+                    return;
+                }
+
+                if (wordAlreadySaved && !definitionAlreadySavedOrIsNull && !string.IsNullOrWhiteSpace(definition))
+                {
+                    successfulSave = sw.AddDefinition(word, definition);
+                }
+                else
+                {
+                    successfulSave = sw.Save(word, definition);
+                }
             }
 
            if (!successfulSave)
