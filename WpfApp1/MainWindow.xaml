@@ -24,14 +24,20 @@
             <Label Target="{Binding ElementName=foundWord}">Found:</Label>
             <TextBox 
               Name="foundWord" 
-              Text="{Binding Path=WordSearchCommand.LastFoundWord, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+              Text="{Binding Path=WordSearchCommand.LastFoundWord.Spelling, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
               IsReadOnly="True"/>
-            <Label Target="{Binding ElementName=foundDefinition}">First Definition:</Label>
-            <TextBox 
-              Name="foundDefinition" 
-              IsReadOnly="True" 
-              Text="{Binding Path=WordSearchCommand.LastFoundDefinition, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-             />
+          </StackPanel>
+          <StackPanel Orientation="Horizontal">
+            <Label>Definitions:</Label>
+            <ItemsControl 
+              Name="definitions" 
+              ItemsSource="{Binding Path=WordSearchCommand.LastFoundWord.DefinitionList, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Path=Meaning}"></TextBlock>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
           </StackPanel>
         </StackPanel>
       </TabItem>

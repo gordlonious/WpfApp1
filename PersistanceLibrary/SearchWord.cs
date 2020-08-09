@@ -53,12 +53,17 @@ namespace PersistanceLibrary
 ";
                 using (SQLiteDataReader result = cmd.ExecuteReader())
                 {
+                    Word w;
                     if (result.HasRows && result.Read())
                     {
-                        Word w = new Word(result.GetString(0));
-                        if (!result.IsDBNull(1))
+                        w = new Word(result.GetString(0));
+                        w.DefinitionList.Add(new Definition(result.GetString(1)));
+
+                        while (result.Read())
+                        {
                             w.DefinitionList.Add(new Definition(result.GetString(1)));
-                        // ignore entries with duplicate spellings for now
+                        }
+
                         return w;
                     }
                     else

@@ -9,9 +9,7 @@ namespace WpfApp1.Commands
 {
     public class WordSearchCommand : ICommand, INotifyPropertyChanged
     {
-        public string LastFoundWord { get; set; }
-        public string LastFoundDefinition { get; set; }
-
+        public Word LastFoundWord { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public event EventHandler CanExecuteChanged
@@ -29,13 +27,8 @@ namespace WpfApp1.Commands
             if (found)
             {
                 Word w = SearchWordLogic.GetWord(word);
-                LastFoundWord = word;
+                LastFoundWord = w;
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs("LastFoundWord"));
-                if (w.DefinitionList.Count > 0)
-                {
-                    LastFoundDefinition = w.DefinitionList[0]?.Meaning;
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("LastFoundDefinition"));
-                }
             }
             else
             {
