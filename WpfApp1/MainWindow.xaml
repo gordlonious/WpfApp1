@@ -34,7 +34,18 @@
               ItemsSource="{Binding Path=WordSearchCommand.LastFoundWord.DefinitionList, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                  <TextBlock Text="{Binding Path=Meaning}"></TextBlock>
+                  <Border BorderThickness="1.0,1.0,1.0,1.0" BorderBrush="Black">
+                    <Border.Style>
+                      <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                          <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="LightSkyBlue"/>
+                          </Trigger>
+                        </Style.Triggers>
+                      </Style>
+                    </Border.Style>
+                    <TextBlock Text="{Binding Path=Meaning}" Padding="10.0,0.0,10.0,0.0" />
+                  </Border>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
